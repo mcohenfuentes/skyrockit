@@ -35,10 +35,11 @@ app.use(
 app.use(passUserToView);
 
 app.get('/', (req, res) => {
-  console.log(res.locals.user)
-  res.render('index.ejs', {
-    user: req.session.user,
-  });
+  if (req.session.user ) {
+    res.redirect(`/users/${req.session.user._id}/applications`);
+  } else {
+    res.render('index.ejs')
+  }
 });
 
 app.use('/auth', authController);
